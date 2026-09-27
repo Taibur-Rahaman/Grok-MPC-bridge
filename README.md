@@ -21,7 +21,7 @@ https://YOUR-DOMAIN.vercel.app/api/mcp
 Production example:
 
 ```text
-https://grok-mcp-bridge.vercel.app/api/mcp
+https://grok-mpc-bridge.vercel.app/api/mcp
 ```
 
 No environment variables are required for the free connector mode.
@@ -30,14 +30,14 @@ No environment variables are required for the free connector mode.
 
 1. Open [grok.com/connectors](https://grok.com/connectors).
 2. Click **New Connector** → **Custom**.
-3. Paste the MCP URL: `https://grok-mcp-bridge.vercel.app/api/mcp`
+3. Paste the MCP URL: `https://grok-mpc-bridge.vercel.app/api/mcp`
 4. Complete any auth prompts if Grok shows them (none required by this server).
 5. In a Grok chat, ask it to use `bridge_status` or `world_clock`.
 
 CLI example (if available on your plan):
 
 ```bash
-grok mcp add --transport http grok-mcp-bridge https://grok-mcp-bridge.vercel.app/api/mcp
+grok mcp add --transport http grok-mcp-bridge https://grok-mpc-bridge.vercel.app/api/mcp
 ```
 
 ## What this is not
