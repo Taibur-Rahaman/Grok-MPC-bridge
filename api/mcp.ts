@@ -173,7 +173,7 @@ function buildServer() {
                                 redirect: "manual",
                                 signal: controller.signal,
                                 headers: {
-                                              "User-Agent": "grok-mcp-bridge/0.2 (+https://grok-mcp-bridge.vercel.app)",
+                                              "User-Agent": "grok-mcp-bridge/0.2 (+https://grok-mpc-bridge.vercel.app)",
                                               Accept: "text/plain, text/html, application/json, application/xml, */*;q=0.1"
                                 }
                     });
