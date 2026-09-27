@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/mcp.ts": {
-      "runtime": "nodejs24.x",
+      "maxDuration": 60,
       "supportsCancellation": true
     }
   }
