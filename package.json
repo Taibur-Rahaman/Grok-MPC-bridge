@@ -1,8 +1,8 @@
 {
   "name": "grok-mcp-bridge",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
-  "description": "MCP bridge for calling the xAI Grok API from MCP-compatible clients.",
+  "description": "Custom MCP connector tools for consumer Grok (no xAI API key).",
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit",
