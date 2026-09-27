@@ -1,74 +1,53 @@
 # Grok MCP Bridge
 
-A small, deployable MCP server that exposes xAI Grok as an MCP tool.
+A small Vercel-hosted **custom MCP connector for consumer Grok**.
 
-## What it does
+Grok (at grok.com) is the MCP **client**. This server exposes free utility tools Grok can call in chat. It does **not** call the xAI API and needs **no** `XAI_API_KEY`.
 
-The first MVP exposes:
+## Tools
 
-- `ask_grok` — send a prompt to Grok through the xAI API
-- `grok_status` — check bridge/API-key configuration
-
-Architecture:
-
-```
-MCP client (ChatGPT / Grok / Cursor / other)
-                |
-                v
-        Grok MCP Bridge
-                |
-                v
-          xAI Grok API
-```
-
-This project does **not** automate the consumer Grok website or read a private Grok chat account. It uses the official xAI API.
+- `bridge_status` — health check for the connector
+- `world_clock` — current time for an IANA timezone
+- `fetch_public_url` — fetch a public `https://` page (blocks private/local addresses)
 
 ## Deploy
 
-1. Create an xAI API key.
-2. Import this repository into Vercel.
-3. Add the environment variable:
+Already designed for Vercel (`api/mcp.ts` + `vercel.json`). After deploy, the MCP endpoint is:
 
-```
-XAI_API_KEY=...
-```
-
-4. Deploy.
-5. Your MCP endpoint will be:
-
-```
+```text
 https://YOUR-DOMAIN.vercel.app/api/mcp
 ```
 
-The server uses Streamable HTTP.
+Production example:
 
-## Connect to Grok
-
-xAI supports custom MCP connectors. Add the deployed MCP URL in Grok's connector settings.
-
-Example CLI:
-
+```text
+https://grok-mcp-bridge.vercel.app/api/mcp
 ```
-grok mcp add --transport http grok-mcp-bridge https://YOUR-DOMAIN.vercel.app/api/mcp
+
+No environment variables are required for the free connector mode.
+
+## Connect in Grok
+
+1. Open [grok.com/connectors](https://grok.com/connectors).
+2. Click **New Connector** → **Custom**.
+3. Paste the MCP URL: `https://grok-mcp-bridge.vercel.app/api/mcp`
+4. Complete any auth prompts if Grok shows them (none required by this server).
+5. In a Grok chat, ask it to use `bridge_status` or `world_clock`.
+
+CLI example (if available on your plan):
+
+```bash
+grok mcp add --transport http grok-mcp-bridge https://grok-mcp-bridge.vercel.app/api/mcp
 ```
+
+## What this is not
+
+This project cannot proxy your consumer Grok chat account into Cursor/ChatGPT without the official xAI API. Consumer Grok billing and API billing are separate. Scraping grok.com or reusing session cookies is unsupported and not implemented.
 
 ## Security
 
-For the MVP, the xAI key stays server-side as an environment variable.
+- `fetch_public_url` only allows `https://`, rejects credentials in URLs, and blocks localhost / private IP ranges (including DNS that resolves privately).
+- Redirects are not followed.
+- Response bodies are truncated.
 
-Before making this a public multi-user SaaS, add per-user authentication, rate limits, usage limits, audit logging, and tenant isolation.
-
-## Important product limitation
-
-An MCP bridge can expose Grok through the official xAI API. It cannot magically read a user's private conversations from the consumer Grok app unless xAI provides an official API/connector for that data.
-
-## Roadmap
-
-- OAuth / one-click onboarding
-- Per-user xAI API key vault
-- Multi-tenant isolation
-- Usage limits
-- `ask_grok` streaming
-- `grok_search`
-- conversation/session support
-- admin dashboard
+Before exposing write-capable or private-data tools, add authentication, rate limits, and audit logging.
